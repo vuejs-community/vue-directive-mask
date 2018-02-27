@@ -77,7 +77,7 @@ var onInputListener = function onInputListener(event) {
   updateValue(event.target);
 };
 
-exports.default = {
+var maskDirective = {
   bind: function bind(el, _ref) {
     var value = _ref.value;
 
@@ -102,6 +102,12 @@ exports.default = {
 
     el.removeEventListener('keyup', onInputListener);
     el.addEventListener('keyup', onInputListener);
+  }
+};
+
+exports.default = {
+  install: function install(Vue) {
+    Vue.directive('mask', maskDirective);
   }
 };
 module.exports = exports['default'];

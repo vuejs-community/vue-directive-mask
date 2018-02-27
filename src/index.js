@@ -64,7 +64,7 @@ const onInputListener = event => {
   updateValue(event.target)
 }
 
-export default {
+const maskDirective = {
   bind: (el, { value }) => {
     updateMask(el, value)
     updateValue(el)
@@ -84,5 +84,11 @@ export default {
 
     el.removeEventListener('keyup', onInputListener)
     el.addEventListener('keyup', onInputListener)
+  }
+}
+
+export default {
+  install (Vue) {
+    Vue.directive('mask', maskDirective)
   }
 }
