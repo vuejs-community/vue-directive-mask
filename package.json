@@ -2,12 +2,12 @@
   "name": "vue-directive-mask",
   "description": "Simple mask input directive for Vue.js",
   "author": "Eduard Nikolenko <info@eduardnikolenko.com>",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "dist/vue-directive-mask.js",
   "keywords": [
     "vue",
-    "vue-filter"
+    "vue-directive"
   ],
   "repository": {
     "type": "git",
