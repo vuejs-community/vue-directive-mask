@@ -1,6 +1,9 @@
+import { VueConstructor } from 'vue';
+import { version } from '../package.json';
+
 const maskStart = /^([^#ANX]+)/;
 
-const format = (data, mask = '') => {
+const format = (data: string, mask: string = ''): string => {
   if (!mask.length) {
     return data;
   }
@@ -44,11 +47,11 @@ const format = (data, mask = '') => {
   return text;
 };
 
-const updateMask = (element, mask) => {
+const updateMask = (element: HTMLInputElement, mask: string): void => {
   element.dataset.mask = mask;
 };
 
-const updateValue = (element, force = false) => {
+const updateValue = (element: HTMLInputElement, force: boolean = false): void => {
   const { value, dataset: { prevValue = '', mask } } = element;
 
   if (force || (value && value !== prevValue && value.length > prevValue.length)) {
@@ -62,32 +65,35 @@ const updateValue = (element, force = false) => {
   element.dataset.prevValue = value;
 };
 
-const onInputListener = (event) => {
-  updateValue(event.target);
+const onInputListener = (event: KeyboardEvent): void => {
+  updateValue(event.target as HTMLInputElement);
 };
 
-export default {
-  install(Vue) {
-    Vue.directive('mask', {
-      bind(element, binding) {
-        updateMask(element, binding.value);
-        updateValue(element);
+export const maskDirective = {
+  bind(element: HTMLInputElement, binding) {
+    updateMask(element, binding.value);
+    updateValue(element);
 
-        element.addEventListener('keyup', onInputListener);
-      },
-      componentUpdated(element, binding) {
-        if (binding.value !== binding.oldValue) {
-          updateMask(element, binding.value);
-        }
+    element.addEventListener('keyup', onInputListener);
+  },
+  componentUpdated(element: HTMLInputElement, binding) {
+    if (binding.value !== binding.oldValue) {
+      updateMask(element, binding.value);
+    }
 
-        updateValue(element);
+    updateValue(element);
 
-        element.removeEventListener('keyup', onInputListener);
-        element.addEventListener('keyup', onInputListener);
-      },
-      unbind(element) {
-        element.removeEventListener('keyup', onInputListener);
-      }
-    });
+    element.removeEventListener('keyup', onInputListener);
+    element.addEventListener('keyup', onInputListener);
+  },
+  unbind(element: HTMLInputElement) {
+    element.removeEventListener('keyup', onInputListener);
   }
+}
+
+export default {
+  install(Vue: VueConstructor): void {
+    Vue.directive('mask', maskDirective);
+  },
+  version
 };
