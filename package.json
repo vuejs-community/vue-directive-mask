@@ -1,32 +1,36 @@
 {
   "name": "vue-directive-mask",
   "description": "Simple mask input directive for Vue.js",
-  "author": "Eduard Nikolenko <info@eduardnikolenko.com>",
-  "version": "1.0.3",
-  "license": "MIT",
-  "main": "dist/vue-directive-mask.js",
   "keywords": [
     "vue",
     "vue-directive"
   ],
+  "license": "MIT",
+  "version": "1.1.0",
+  "author": "Eduard Nikolenko <info@eduardnikolenko.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eduardnikolenko/vue-directive-mask.git"
   },
+  "files": [
+    "dist/vue-directive-mask.cjs.js",
+    "dist/vue-directive-mask.esm.js"
+  ],
+  "main": "dist/vue-directive-mask.cjs.js",
+  "module": "dist/vue-directive-mask.esm.js",
   "scripts": {
-    "build": "babel src -o dist/vue-directive-mask.js",
-    "lint": "eslint src"
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:cjs": "rollup --config rollup.config.js --format cjs --file dist/vue-directive-mask.cjs.js",
+    "build:esm": "rollup --config rollup.config.js --format esm --file dist/vue-directive-mask.esm.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.12.0",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "rollup": "^0.67.0",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "vue": "^2.5.17"
   },
   "peerDependencies": {
     "vue": "^2.0.0"
