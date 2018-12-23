@@ -1,8 +1,8 @@
 # vue-directive-mask
 Simple mask input directive for Vue.js
 
-[![Code Style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![NPM Version](https://img.shields.io/npm/v/vue-directive-mask.svg)](https://www.npmjs.com/package/vue-directive-mask)
+[![License](https://img.shields.io/npm/l/vue-directive-mask.svg)](/LICENSE)
 [![Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask)
 [![Dev Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask/dev-status.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask/?type=dev)
 [![Peer Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask/peer-status.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask?type=peer)
