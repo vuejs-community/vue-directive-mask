@@ -4,9 +4,9 @@ Simple mask input directive for Vue.js
 [![NPM Version](https://img.shields.io/npm/v/vue-directive-mask.svg)](https://www.npmjs.com/package/vue-directive-mask)
 [![License](https://img.shields.io/npm/l/vue-directive-mask.svg)](/LICENSE)
 [![Downloads](https://img.shields.io/npm/dm/vue-directive-mask.svg)](https://npmcharts.com/compare/vue-directive-mask?minimal=true)
-[![Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask)
-[![Dev Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask/dev-status.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask/?type=dev)
-[![Peer Dependencies](https://david-dm.org/eduardnikolenko/vue-directive-mask/peer-status.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask?type=peer)
+[![Dependencies](https://img.shields.io/david/eduardnikolenko/vue-directive-mask.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask)
+[![Dev Dependencies](https://img.shields.io/david/dev/eduardnikolenko/vue-directive-mask.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask/?type=dev)
+[![Peer Dependencies](https://img.shields.io/david/peer/eduardnikolenko/vue-directive-mask.svg)](https://david-dm.org/eduardnikolenko/vue-directive-mask?type=peer)
 
 ## Installation
 
