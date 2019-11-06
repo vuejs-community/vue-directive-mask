@@ -3,6 +3,19 @@ import { version } from '../package.json';
 
 const maskStart = /^([^#ANX]+)/;
 
+const getInputElement = (element: HTMLElement): HTMLInputElement => {
+  if (element.tagName.toLocaleUpperCase() === 'INPUT') {
+    return element as HTMLInputElement;
+  }
+
+  const inputElements = element.getElementsByTagName('input');
+  if (inputElements.length === 0) {
+    throw new Error('[vue-directive-mask]: v-mask directive requires input');
+  }
+
+  return inputElements[0];
+};
+
 const format = (data: string, mask: string = ''): string => {
   if (!mask.length) {
     return data;
@@ -16,25 +29,31 @@ const format = (data: string, mask: string = ''): string => {
   let dataOutput = '';
 
   loop: for (let i = 0; i < mask.length; i++) {
-    const dataChar = data.charAt(i - dataOffset);
+    const dataChar = data.charAt(i + dataOffset);
     const maskChar = mask.charAt(i);
 
     switch (maskChar) {
       case '#':
-        /[0-9]/.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[0-9]/.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case 'A':
-        /[a-z]/i.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[a-z]/i.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case 'N':
-        /[a-z0-9]/i.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[a-z0-9]/i.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case '?':
         dataOffset++;
         break;
@@ -44,7 +63,7 @@ const format = (data: string, mask: string = ''): string => {
       default:
         dataOutput += maskChar;
         if (dataChar && dataChar !== maskChar) {
-          dataOffset--;
+          dataOffset++;
         }
         break;
     }
@@ -76,24 +95,30 @@ const onInputListener = (event: KeyboardEvent): void => {
 };
 
 export const maskDirective = {
-  bind(element: HTMLInputElement, binding) {
-    updateMask(element, binding.value);
-    updateValue(element);
+  bind(element: HTMLElement, binding) {
+    const inputElement = getInputElement(element);
 
-    element.addEventListener('keyup', onInputListener);
+    updateMask(inputElement, binding.value);
+    updateValue(inputElement);
+
+    inputElement.addEventListener('keyup', onInputListener);
   },
-  componentUpdated(element: HTMLInputElement, binding) {
+  componentUpdated(element: HTMLElement, binding) {
+    const inputElement = getInputElement(element);
+
     if (binding.value !== binding.oldValue) {
-      updateMask(element, binding.value);
+      updateMask(inputElement, binding.value);
     }
 
-    updateValue(element);
+    updateValue(inputElement);
 
-    element.removeEventListener('keyup', onInputListener);
-    element.addEventListener('keyup', onInputListener);
+    inputElement.removeEventListener('keyup', onInputListener);
+    inputElement.addEventListener('keyup', onInputListener);
   },
-  unbind(element: HTMLInputElement) {
-    element.removeEventListener('keyup', onInputListener);
+  unbind(element: HTMLElement) {
+    const inputElement = getInputElement(element);
+
+    inputElement.removeEventListener('keyup', onInputListener);
   }
 }
 
