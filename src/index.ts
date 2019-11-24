@@ -12,39 +12,45 @@ const format = (data: string, mask: string = ''): string => {
     data = maskStart.exec(mask)[0] + data;
   }
 
-  let text = '';
-  let cOffset = 0;
+  let dataOffset = 0;
+  let dataOutput = '';
 
-  for (let i = 0, x = 1; x && i < mask.length; i++) {
-    let c = data.charAt(i - cOffset);
-    let m = mask.charAt(i);
+  loop: for (let i = 0; i < mask.length; i++) {
+    const dataChar = data.charAt(i - dataOffset);
+    const maskChar = mask.charAt(i);
 
-    switch (m) {
+    switch (maskChar) {
       case '#':
-        /[0-9]/.test(c) ? text += c : x = 0;
+        /[0-9]/.test(dataChar)
+          ? dataOutput += dataChar
+          : break loop;
         break;
       case 'A':
-        /[a-z]/i.test(c) ? text += c : x = 0;
+        /[a-z]/i.test(dataChar)
+          ? dataOutput += dataChar
+          : break loop;
         break;
       case 'N':
-        /[a-z0-9]/i.test(c) ? text += c : x = 0;
+        /[a-z0-9]/i.test(dataChar)
+          ? dataOutput += dataChar
+          : break loop;
         break;
       case '?':
-        cOffset++;
+        dataOffset++;
         break;
       case 'X':
-        text += c;
+        dataOutput += dataChar;
         break;
       default:
-        text += m;
-        if (c && c !== m) {
-          data = ' ' + data;
+        dataOutput += maskChar;
+        if (dataChar && dataChar !== maskChar) {
+          dataOffset--;
         }
         break;
     }
   }
 
-  return text;
+  return dataOutput;
 };
 
 const updateMask = (element: HTMLInputElement, mask: string): void => {
