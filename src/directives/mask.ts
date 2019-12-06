@@ -1,16 +1,16 @@
 const maskStart = /^([^#ANX]+)/;
 
-const getInputElement = (element) => {
-  if (element.tagName.toLocaleUpperCase() !== 'INPUT') {
-    const [firstElement] = el.getElementsByTagName('input');
-    if (!firstElement) {
-      throw new Error('[vue-directive-mask]: v-mask directive requires input');
-    }
-
-    return firstElement;
+const getInputElement = (element: HTMLElement | HTMLInputElement): HTMLInputElement => {
+  if (element.tagName.toLocaleUpperCase() === 'INPUT') {
+    return element as HTMLInputElement;
   }
 
-  return element;
+  const inputElements = element.getElementsByTagName('input');
+  if (inputElements.length === 0) {
+    throw new Error('[vue-directive-mask]: v-mask directive requires input element');
+  }
+
+  return inputElements[0];
 };
 
 const format = (data: string, mask: string = '') => {
@@ -26,25 +26,31 @@ const format = (data: string, mask: string = '') => {
   let dataOutput = '';
 
   loop: for (let i = 0; i < mask.length; i++) {
-    const dataChar = data.charAt(i - dataOffset);
+    const dataChar = data.charAt(i + dataOffset);
     const maskChar = mask.charAt(i);
 
     switch (maskChar) {
       case '#':
-        /[0-9]/.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[0-9]/.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case 'A':
-        /[a-z]/i.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[a-z]/i.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case 'N':
-        /[a-z0-9]/i.test(dataChar)
-          ? dataOutput += dataChar
-          : break loop;
-        break;
+        if (/[a-z0-9]/i.test(dataChar)) {
+          dataOutput += dataChar;
+          break;
+        }
+
+        break loop;
       case '?':
         dataOffset++;
         break;
@@ -54,7 +60,7 @@ const format = (data: string, mask: string = '') => {
       default:
         dataOutput += maskChar;
         if (dataChar && dataChar !== maskChar) {
-          dataOffset--;
+          dataOffset++;
         }
         break;
     }
@@ -63,22 +69,22 @@ const format = (data: string, mask: string = '') => {
   return dataOutput;
 };
 
-const updateMask = (el, mask: string) => {
-  el.dataset.mask = mask;
+const updateMask = (element, mask: string) => {
+  element.dataset.mask = mask;
 };
 
-const updateValue = (el, force: boolean = false) => {
-  const { value, dataset: { prevValue = '', mask } } = el;
+const updateValue = (element, force: boolean = false) => {
+  const { value, dataset: { prevValue = '', mask } } = element;
 
   if (force || (value && value !== prevValue && value.length > prevValue.length)) {
-    el.value = format(value, mask);
+    element.value = format(value, mask);
 
     const event = document.createEvent('HTMLEvents');
     event.initEvent('input', true, true);
-    el.dispatchEvent(event);
+    element.dispatchEvent(event);
   }
 
-  el.dataset.prevValue = value;
+  element.dataset.prevValue = value;
 };
 
 const onInputListener = (event) => {
@@ -86,29 +92,29 @@ const onInputListener = (event) => {
 };
 
 export const maskDirective = {
-  bind(el, binding) {
-    const inputElement = getInputElement(el);
+  bind(element: HTMLElement, binding) {
+    const inputElement = getInputElement(element);
 
-    updateMask(el, binding.value);
+    updateMask(inputElement, binding.value);
     updateValue(inputElement);
 
-    inputElement.addEventListener('keyup', onInputListener);
+    inputElement.addEventListener('keydown', onInputListener);
   },
-  unbind(el) {
-    const inputElement = getInputElement(el);
+  unbind(element: HTMLElement) {
+    const inputElement = getInputElement(element);
 
-    inputElement.removeEventListener('keyup', onInputListener);
+    inputElement.removeEventListener('keydown', onInputListener);
   },
-  componentUpdated(el, binding) {
-    const inputElement = getInputElement(el);
+  componentUpdated(element: HTMLElement, binding) {
+    const inputElement = getInputElement(element);
 
     if (binding.value !== binding.oldValue) {
-      updateMask(el, binding.value);
+      updateMask(inputElement, binding.value);
     }
 
     updateValue(inputElement);
 
-    inputElement.removeEventListener('keyup', onInputListener);
-    inputElement.addEventListener('keyup', onInputListener);
+    inputElement.removeEventListener('keydown', onInputListener);
+    inputElement.addEventListener('keydown', onInputListener);
   }
 };
