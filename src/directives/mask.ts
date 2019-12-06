@@ -1,5 +1,18 @@
 const maskStart = /^([^#ANX]+)/;
 
+const getInputElement = (element) => {
+  if (element.tagName.toLocaleUpperCase() !== 'INPUT') {
+    const [firstElement] = el.getElementsByTagName('input');
+    if (!firstElement) {
+      throw new Error('[vue-directive-mask]: v-mask directive requires input');
+    }
+
+    return firstElement;
+  }
+
+  return element;
+};
+
 const format = (data: string, mask: string = '') => {
   if (!mask.length) {
     return data;
@@ -74,22 +87,28 @@ const onInputListener = (event) => {
 
 export const maskDirective = {
   bind(el, binding) {
-    updateMask(el, binding.value);
-    updateValue(el);
+    const inputElement = getInputElement(el);
 
-    el.addEventListener('keyup', onInputListener);
+    updateMask(el, binding.value);
+    updateValue(inputElement);
+
+    inputElement.addEventListener('keyup', onInputListener);
   },
   unbind(el) {
-    el.removeEventListener('keyup', onInputListener);
+    const inputElement = getInputElement(el);
+
+    inputElement.removeEventListener('keyup', onInputListener);
   },
   componentUpdated(el, binding) {
+    const inputElement = getInputElement(el);
+
     if (binding.value !== binding.oldValue) {
       updateMask(el, binding.value);
     }
 
-    updateValue(el);
+    updateValue(inputElement);
 
-    el.removeEventListener('keyup', onInputListener);
-    el.addEventListener('keyup', onInputListener);
+    inputElement.removeEventListener('keyup', onInputListener);
+    inputElement.addEventListener('keyup', onInputListener);
   }
 };
