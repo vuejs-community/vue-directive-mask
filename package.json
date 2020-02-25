@@ -19,7 +19,7 @@
     "dist/vue-directive-mask.esm.js"
   ],
   "main": "dist/vue-directive-mask.cjs.js",
-  "module": "dist/vue-directive-mask.esm.ts",
+  "module": "dist/vue-directive-mask.esm.js",
   "types": "dist/vue-filter-date-format.esm.d.ts",
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
