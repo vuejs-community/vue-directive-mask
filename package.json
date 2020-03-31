@@ -1,12 +1,12 @@
 {
-  "name": "vue-directive-mask",
+  "name": "@vuejs-community/vue-directive-mask",
   "description": "Simple mask input directive for Vue.js",
   "keywords": [
     "vue",
     "vue-directive"
   ],
   "license": "MIT",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "author": "Ed Nikolenko <4426698+ednikolenko@users.noreply.github.com>",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -19,20 +19,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ednikolenko/vue-directive-mask.git"
+    "url": "git+https://github.com/vuejs-community/vue-directive-mask.git"
   },
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:cjs": "rollup --config rollup.config.js --format cjs --file dist/index.cjs.js",
-    "build:esm": "rollup --config rollup.config.js --format esm --file dist/index.esm.js",
+    "build": "rollup --config rollup.config.js",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.0.2",
-    "@wessberg/rollup-plugin-ts": "^1.2.17",
-    "rollup": "^1.31.1",
-    "tslint": "^6.0.0",
-    "typescript": "^3.8.2",
+    "@rollup/plugin-json": "^4.0.3",
+    "@wessberg/rollup-plugin-ts": "^1.2.24",
+    "rollup": "^2.8.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3",
     "vue": "^2.6.11"
   },
   "peerDependencies": {

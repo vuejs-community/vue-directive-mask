@@ -1,16 +1,16 @@
-# vue-directive-mask
+# @vuejs-community/vue-directive-mask
 Simple mask input directive for Vue.js
 
 ## Installation
 
 install from npm
 ```bash
-$ npm install vue-directive-mask
+$ npm install @vuejs-community/vue-directive-mask
 ```
 and register in you Vue app
 ```js
 import Vue from 'vue';
-import VueDirectiveMask from 'vue-directive-mask';
+import VueDirectiveMask from '@vuejs-community/vue-directive-mask';
 
 Vue.use(VueDirectiveMask);
 ```
@@ -39,4 +39,4 @@ Vue.use(VueDirectiveMask);
 
 ## License
 
-MIT © [Ed Nikolenko](https://github.com/ednikolenko)
+MIT © [Vue.js Community](https://github.com/vuejs-community)
