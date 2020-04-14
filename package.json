@@ -7,10 +7,10 @@
   ],
   "license": "MIT",
   "version": "1.2.3",
-  "author": "Eduard Nikolenko <info@eduardnikolenko.com>",
+  "author": "Eduard Nikolenko <mail@eduardnikolenko.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eduardnikolenko/vue-directive-mask.git"
+    "url": "git+https://github.com/vuejs-community/vue-directive-mask.git"
   },
   "files": [
     "dist/vue-directive-mask.cjs.d.ts",
