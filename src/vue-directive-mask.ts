@@ -1,6 +1,10 @@
+import { VueConstructor } from 'vue';
+
+import { version } from '../package.json';
+
 const maskStart = /^([^#ANX]+)/;
 
-const getInputElement = (element: HTMLElement | HTMLInputElement): HTMLInputElement => {
+function getInputElement(element: HTMLElement | HTMLInputElement): HTMLInputElement {
   if (element.tagName.toLocaleUpperCase() === 'INPUT') {
     return element as HTMLInputElement;
   }
@@ -11,9 +15,9 @@ const getInputElement = (element: HTMLElement | HTMLInputElement): HTMLInputElem
   }
 
   return inputElements[0];
-};
+}
 
-const format = (data: string, mask: string = '') => {
+function format(data: string, mask: string = '') {
   if (!mask.length) {
     return data;
   }
@@ -67,13 +71,13 @@ const format = (data: string, mask: string = '') => {
   }
 
   return dataOutput;
-};
+}
 
-const updateMask = (element, mask: string) => {
+function updateMask(element, mask: string) {
   element.dataset.mask = mask;
-};
+}
 
-const updateValue = (element, force: boolean = false) => {
+function updateValue(element, force: boolean = false) {
   const { value, dataset: { prevValue = '', mask } } = element;
 
   if (force || (value && value !== prevValue && value.length > prevValue.length)) {
@@ -85,36 +89,41 @@ const updateValue = (element, force: boolean = false) => {
   }
 
   element.dataset.prevValue = value;
-};
+}
 
-const onInputListener = (event) => {
+function onInputListener(event) {
   updateValue(event.target);
-};
+}
 
-export const maskDirective = {
-  bind(element: HTMLElement, binding) {
-    const inputElement = getInputElement(element);
+export default {
+  install(Vue: VueConstructor): void {
+    Vue.directive('mask', {
+      bind(element: HTMLElement, binding) {
+        const inputElement = getInputElement(element);
 
-    updateMask(inputElement, binding.value);
-    updateValue(inputElement);
+        updateMask(inputElement, binding.value);
+        updateValue(inputElement);
 
-    inputElement.addEventListener('keydown', onInputListener);
+        inputElement.addEventListener('keydown', onInputListener);
+      },
+      unbind(element: HTMLElement) {
+        const inputElement = getInputElement(element);
+
+        inputElement.removeEventListener('keydown', onInputListener);
+      },
+      componentUpdated(element: HTMLElement, binding) {
+        const inputElement = getInputElement(element);
+
+        if (binding.value !== binding.oldValue) {
+          updateMask(inputElement, binding.value);
+        }
+
+        updateValue(inputElement);
+
+        inputElement.removeEventListener('keydown', onInputListener);
+        inputElement.addEventListener('keydown', onInputListener);
+      }
+    });
   },
-  unbind(element: HTMLElement) {
-    const inputElement = getInputElement(element);
-
-    inputElement.removeEventListener('keydown', onInputListener);
-  },
-  componentUpdated(element: HTMLElement, binding) {
-    const inputElement = getInputElement(element);
-
-    if (binding.value !== binding.oldValue) {
-      updateMask(inputElement, binding.value);
-    }
-
-    updateValue(inputElement);
-
-    inputElement.removeEventListener('keydown', onInputListener);
-    inputElement.addEventListener('keydown', onInputListener);
-  }
+  version
 };
