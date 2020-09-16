@@ -13,7 +13,7 @@ export default {
     {
       exports: 'named',
       file: 'dist/vue-directive-mask.cjs.js',
-      format: 'system',
+      format: 'commonjs',
       sourcemap: true
     }
   ],
