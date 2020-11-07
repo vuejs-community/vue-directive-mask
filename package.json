@@ -16,7 +16,9 @@
     "dist/vue-directive-mask.cjs.d.ts",
     "dist/vue-directive-mask.cjs.js",
     "dist/vue-directive-mask.esm.d.ts",
-    "dist/vue-directive-mask.esm.js"
+    "dist/vue-directive-mask.esm.js",
+    "dist/vue-directive-mask.umd.d.ts",
+    "dist/vue-directive-mask.umd.js"
   ],
   "main": "dist/vue-directive-mask.cjs.js",
   "module": "dist/vue-directive-mask.esm.js",
