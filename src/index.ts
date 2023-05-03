@@ -1,5 +1,12 @@
-import { VueConstructor } from 'vue';
-import { version } from '../package.json';
+type VueDirective = {
+  bind: Function;
+  componentUpdated: Function;
+  unbind: Function;
+};
+
+type VueConstructor = {
+  directive(id: string, definition?: VueDirective): void;
+};
 
 const maskStart = /^([^#ANX]+)/;
 
@@ -120,11 +127,10 @@ export const maskDirective = {
 
     inputElement.removeEventListener('keyup', onInputListener);
   }
-}
+};
 
 export default {
   install(Vue: VueConstructor): void {
     Vue.directive('mask', maskDirective);
-  },
-  version
+  }
 };
